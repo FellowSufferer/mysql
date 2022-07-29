@@ -111,7 +111,13 @@ int makePDF (char *NameSurname, char *PlaceName, char *email, char *current_dir,
      } box1, box2, box3;
 
     char filename[200];
-     
+
+    char *bold_font_path = "fonts/CenturyGothicBold.ttf";
+    char *regular_font_path = "fonts/CenturyGothic.ttf";
+
+    // IMPORTANT! LibHaru is very particular about PNGs it imports. This one worked ONLY after I re-exported it with GIMP.
+    char *background_path = "bgs/bpm.png";
+
     
     //  End of definitions
     
@@ -135,8 +141,8 @@ int makePDF (char *NameSurname, char *PlaceName, char *email, char *current_dir,
     HPDF_SetPageLayout (pdf, HPDF_PAGE_LAYOUT_SINGLE);
     
     //  Loading up the fonts
-    bold_font_name = HPDF_LoadTTFontFromFile(pdf, "CenturyGothicBold.ttf", HPDF_TRUE);
-    regular_font_name = HPDF_LoadTTFontFromFile(pdf, "CenturyGothic.ttf", HPDF_TRUE);
+    bold_font_name = HPDF_LoadTTFontFromFile(pdf, bold_font_path, HPDF_TRUE);
+    regular_font_name = HPDF_LoadTTFontFromFile(pdf, regular_font_path, HPDF_TRUE);
 
     //  Create new page in the document
     page = HPDF_AddPage(pdf);
@@ -154,7 +160,7 @@ int makePDF (char *NameSurname, char *PlaceName, char *email, char *current_dir,
     const float lowerlimit = page_height - 1227.0;
        
     //  Loading background image from external file and setting its size
-    background = HPDF_LoadPngImageFromFile(pdf, "bpm.png");
+    background = HPDF_LoadPngImageFromFile(pdf, background_path);
     background_size = HPDF_Image_GetSize(background);
     
     //  In case we need to squeeze landscape-like picture into the page
@@ -230,6 +236,11 @@ int main(int argc, char **argv)
     MYSQL *con = mysql_init(NULL);
     char current_dir[100];
 
+    char *dir_name = "Blago_M";
+
+    /* Making of a container folder outside of the main one */
+    sprintf (current_dir, "../%s", dir_name);
+    mkdir (current_dir, 0700);
 
     if (con == NULL) 
     {
@@ -279,7 +290,7 @@ int main(int argc, char **argv)
             printf ("\n");
             */
             
-            sprintf(current_dir, "/home/shambler/Documents/progs/mysql/%s", row[2]);
+            sprintf(current_dir, "../%s/%s", dir_name, row[2]);
             //  printf ("Current dir is %s \n", current_dir);
             
             struct stat st = {0};

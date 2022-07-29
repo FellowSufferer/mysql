@@ -83,7 +83,7 @@ int draw_Centered_OneLine_Text (HPDF_Doc pdf,
 
 
 int makePDF (char *NameSurname, char *TeacherFIO, char *PlaceName, char *email, char *current_dir, int number)
-{
+{ 
     HPDF_Doc  pdf;                                                  // - document
     HPDF_Page page;                                                 // - page
     HPDF_PageSizes diploma_size = HPDF_PAGE_SIZE_A4;                // - page size is A4
@@ -117,6 +117,7 @@ int makePDF (char *NameSurname, char *TeacherFIO, char *PlaceName, char *email, 
     char *bold_font_path = "fonts/CenturyGothicBold.ttf";
     char *regular_font_path = "fonts/CenturyGothic.ttf";
 
+    // IMPORTANT! LibHaru is very particular about PNGs it imports. This one worked ONLY after I re-exported it with GIMP.
     char *background_path = "bgs/gramota.png";
     
     //  End of definitions
@@ -163,6 +164,7 @@ int makePDF (char *NameSurname, char *TeacherFIO, char *PlaceName, char *email, 
        
     //  Loading background image from external file and setting its size
     background = HPDF_LoadPngImageFromFile(pdf, background_path);
+    
     background_size = HPDF_Image_GetSize(background);
     
     //  In case we need to squeeze landscape-like picture into the page
@@ -248,6 +250,11 @@ int main(int argc, char **argv)
   
     MYSQL *con = mysql_init(NULL);
     char current_dir[100];
+    char *dir_name = "Gramoti";
+
+    /* Making of a container folder outside of the main one */
+    sprintf (current_dir, "../%s", dir_name);
+    mkdir (current_dir, 0700);
 
 
     if (con == NULL) 
@@ -298,8 +305,8 @@ int main(int argc, char **argv)
             printf ("\n");
             */
             
-            sprintf(current_dir, "/home/shambler/Documents/progs/mysql/%s", row[3]);
-            //  printf ("Current dir is %s \n", current_dir);
+            sprintf(current_dir, "../%s/%s", dir_name, row[3]);
+            // printf ("Current dir is %s \n", current_dir);
             
             struct stat st = {0};
             if (stat(current_dir, &st) == -1)
