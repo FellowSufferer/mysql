@@ -7,3 +7,5 @@
 4. libharu is used to create final .pdf files.
 
 *This is a Linux project, compiling with gcc. All the libraries are not included as of yet*.
+**IMPORTANT!**
+LibHaru is very particular about PNGs it can load, so I had to re-export all my files with GIMP for the program to work.
