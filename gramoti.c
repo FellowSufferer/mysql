@@ -81,6 +81,7 @@ int draw_Centered_OneLine_Text (HPDF_Doc pdf,
 
 
 
+
 int makePDF (char *NameSurname, char *TeacherFIO, char *PlaceName, char *email, char *current_dir, int number)
 {
     HPDF_Doc  pdf;                                                  // - document
@@ -113,6 +114,10 @@ int makePDF (char *NameSurname, char *TeacherFIO, char *PlaceName, char *email, 
     char filename[200];
     char pedagog[200];
     
+    char *bold_font_path = "fonts/CenturyGothicBold.ttf";
+    char *regular_font_path = "fonts/CenturyGothic.ttf";
+
+    char *background_path = "bgs/gramota.png";
     
     //  End of definitions
     
@@ -138,8 +143,8 @@ int makePDF (char *NameSurname, char *TeacherFIO, char *PlaceName, char *email, 
     HPDF_SetPageLayout (pdf, HPDF_PAGE_LAYOUT_SINGLE);
     
     //  Loading up the fonts
-    bold_font_name = HPDF_LoadTTFontFromFile(pdf, "CenturyGothicBold.ttf", HPDF_TRUE);
-    regular_font_name = HPDF_LoadTTFontFromFile(pdf, "CenturyGothic.ttf", HPDF_TRUE);
+    bold_font_name = HPDF_LoadTTFontFromFile(pdf, bold_font_path, HPDF_TRUE);
+    regular_font_name = HPDF_LoadTTFontFromFile(pdf, regular_font_path, HPDF_TRUE);
 
     //  Create new page in the document
     page = HPDF_AddPage(pdf);
@@ -157,7 +162,7 @@ int makePDF (char *NameSurname, char *TeacherFIO, char *PlaceName, char *email, 
     const float lowerlimit = page_height - 1288.0;  //  412px from the top -> pageheight - 
        
     //  Loading background image from external file and setting its size
-    background = HPDF_LoadPngImageFromFile(pdf, "gramota.png");
+    background = HPDF_LoadPngImageFromFile(pdf, background_path);
     background_size = HPDF_Image_GetSize(background);
     
     //  In case we need to squeeze landscape-like picture into the page
