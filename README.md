@@ -1,5 +1,7 @@
 # mysql
 
+![doggy!](/pics/18504.png)
+
 ## This is a project aimed to facilitate mass-creation of diplomas.
 
 1. Text information is extracted from MySQL database (I'm using MySQL Workbench to import .cvs files into it)
